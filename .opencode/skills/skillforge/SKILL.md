@@ -182,6 +182,12 @@ The user must approve the Skill Spec before proceeding to generation.
 
 - **Color contrast** — Do not claim exact contrast validation unless the skill is allowed to use browser or tool output. Prefer: *"Flag obvious contrast risks when visible and recommend tool-based validation for final confirmation."*
 - **Lint / style tools** — Do not say "run lint checks" unless command execution is explicitly allowed. Prefer: *"Inspect available lint and style configs and reference them in the review; do not run commands unless explicitly asked."*
+- **File / line references** — Use *"file references, with line numbers when available from diff or tool output."* Do not invent line numbers. If exact lines are unavailable, cite the file path and nearby selector, component, or function name instead.
+- **Performance / bundle review** — Do not claim actual bundle size, tree-shaking results, or large-bundle detection unless build or bundle analysis is explicitly allowed. Prefer: *"Flag potential bundle or performance risks visible in source, such as heavy imports, missing lazy loading, render-heavy patterns, or unnecessary re-renders."*
+- **Issue classification** — Generated read-only skills must distinguish between:
+  - **Directly observable issues** — visible in source code (missing ARIA, hardcoded px, no media queries)
+  - **Likely risks** — patterns that often cause problems but may be acceptable in context (heavy dependency, complex nesting)
+  - **Checks requiring external tools** — cannot be assessed without running a browser, build tool, or linter (actual contrast ratio, bundle size, runtime performance)
 - **Command execution** — Include a "Command execution" boundary in every generated spec. Default: *"Do not run install, build, lint, test, or deploy commands unless the user explicitly allows it."*
 
 ---
