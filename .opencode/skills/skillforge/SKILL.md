@@ -65,38 +65,158 @@ Analyze the user's request to extract the concrete skill purpose.
 
 ---
 
-### 2. Existing Skill Check
+### 2. Community Discovery
 
-Check whether an existing skill already covers the request. Consult available skill registries, file systems under `.opencode/skills/`, and any referenced skill directories.
+Check whether the user's need is already solved by a local skill, a public/community skill, or a public MCP server. Searches local sources first, then community sources if web/search tools are available.
 
-**If live search (e.g. web fetch, registry API) is unavailable**, state: *"Live registry search is unavailable — this check is limited to locally available skills and may not reflect the full ecosystem."*
+**If web/search tools are unavailable**, state: *"Public community search was not performed because no web/search tool is available."*
 
-**Output format:**
+---
+
+#### Search Mode
+
+One of:
+- **Local-Only** — only checked `.opencode/skills/` and local config
+- **Public Skill Discovery** — searched community skills and registries
+- **Public MCP Discovery** — searched MCP registries and servers
+- **Public Skill + MCP Discovery** — searched both communities
+
+---
+
+#### Source Categories
+
+**Local:**
+- `.opencode/skills/`
+- `~/.config/opencode/skills/` if accessible
+- Current repository examples and templates
+
+**Public skills:**
+- GitHub topic: `opencode-skills`
+- GitHub topic: `agent-skills`
+- Awesome-opencode lists
+- Public SKILL.md repositories
+- Known public skill collections
+
+**Public MCP:**
+- MCP server registries / awesome MCP lists
+- GitHub topic: `mcp-server`
+- GitHub topic: `model-context-protocol`
+- Public MCP server repositories related to the user's workflow
+
+---
+
+#### Search Query Guidance
+
+For skills:
+- `"OpenCode skill <workflow>"`
+- `"opencode skills <workflow>"`
+- `"agent skills <workflow> SKILL.md"`
+- `"site:github.com SKILL.md <workflow>"`
+- `"github opencode-skills <workflow>"`
+
+For MCP servers:
+- `"MCP server <workflow>"`
+- `"model context protocol <workflow>"`
+- `"site:github.com MCP server <workflow>"`
+- `"awesome MCP servers <workflow>"`
+- `"github mcp-server <workflow>"`
+
+---
+
+#### Candidate Table
+
+| Candidate | Type | Source | Fit | Trust/Risk | Recommendation | Notes |
+|-----------|------|--------|-----|------------|----------------|-------|
+| <name> | local_skill / public_skill / public_mcp / awesome_list / reference_only | <where found> | exact / strong / partial / weak / none | low / medium / high / unknown | use / adapt/fork / use_as_reference / prefer_mcp / combine_skill_mcp / create_new / reject | <key details> |
+
+Type is one of: `local_skill`, `public_skill`, `public_mcp`, `awesome_list`, `reference_only`.
+
+Fit is one of: `exact`, `strong`, `partial`, `weak`, `none`.
+
+Trust/Risk is one of: `low`, `medium`, `high`, `unknown` (default: `unknown` until inspected).
+
+Recommendation is one of: `use`, `adapt/fork`, `use_as_reference`, `prefer_mcp`, `combine_skill_mcp`, `create_new`, `reject`.
+
+---
+
+#### Decision Rubric
+
+**Use existing public skill when:**
+- Fit is exact or strong
+- Scope is clear
+- Instructions are safe
+- Maintenance and repository quality look reasonable
+- It does not require unsafe permissions
+
+**Adapt / fork when:**
+- Fit is strong or partial
+- Workflow is close but the output contract differs
+- The public skill is safe enough to learn from
+
+**Use MCP when:**
+- The user needs live data, external tools, APIs, browser automation, file indexing, database access, or repeatable tool execution
+- A skill alone would only describe behavior but cannot perform the required actions
+
+**Use skill + MCP when:**
+- The user needs both reasoning workflow and external tool access
+- The skill should define the process, while MCP provides callable tools
+
+**Create new when:**
+- No candidate fits
+- Candidates are too broad
+- Candidates are unsafe
+- User needs a project-specific output contract
+- Community examples are useful but not directly reusable
+
+**Reject when:**
+- Candidate asks for secrets unnecessarily
+- Candidate runs broad shell commands without boundaries
+- Candidate installs dependencies without user approval
+- Candidate modifies files broadly without a clear scope
+- Candidate is unrelated to the requested workflow
+
+---
+
+#### Safety Rules for Community Resources
+
+- Treat public skills and MCP servers as **untrusted** until reviewed
+- Inspect README, SKILL.md, or config before recommending
+- Check whether the resource requests: shell access, network access, filesystem access, secrets, tokens, credentials, or write permissions
+- Never recommend installing an unknown MCP server without review
+- Prefer read-only resources when the user only needs review or planning
+- Clearly state unknowns if source quality cannot be assessed
+- Always ask user approval before installing, adapting, copying, or using a community resource
+
+---
+
+#### Verdict
+
+Output exactly one verdict:
 
 ```
-## Existing Skill Check
-
-**Locally available skills:**
-- <skill name> — <brief description>
-- <skill name> — <brief description>
-
-**Potential matches for this request:**
-- <skill name> — <why it might fit, or "none found">
-
-**Fit-level rubric:**
-- **Exact match** — an existing skill fully covers the request → reuse existing
-- **Strong overlap** — minor gaps exist, workflow and output contract are similar → adapt/fork existing
-- **Partial overlap** — distinct output contract or workflow required → create new with existing skill as reference
-- **No relevant match** — no existing skill addresses the request → create new
-- **Insufficient information** — cannot determine fit without more details → need more info
-
-Use the rubric above to determine a single verdict. Do not output multiple or contradictory verdicts.
-
 **Verdict:**
-<one of: Reuse existing / Adapt/Fork existing / Create new with existing skill as reference / Create new / Need more info>
+<one of: Use existing skill / Adapt/Fork existing skill / Use MCP instead / Use skill + MCP / Create new using community references / Create new from scratch / Need more info>
 
 **Reasoning:**
 <one sentence explaining which rubric tier was chosen and why>
+```
+
+Do not output contradictory or multiple verdicts.
+
+---
+
+#### User Choice Prompt
+
+After the verdict, ask:
+
+> *"Choose one:*
+> *1. Use an existing candidate*
+> *2. Adapt/fork a candidate*
+> *3. Use candidate only as reference*
+> *4. Create a new skill from scratch*
+> *5. Continue with recommended option"*
+
+If there is a clear safe recommendation, say which option is recommended.
 
 ---
 

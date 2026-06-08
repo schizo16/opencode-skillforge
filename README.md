@@ -1,28 +1,74 @@
 # SkillForge
 
-**Create, adapt, and audit agent skills — from vague idea to production-ready.**
+**Create better OpenCode skills from vague user requests.**
 
 ---
 
-## What Problem It Solves
+Most *"write me a skill"* prompts produce vague, assumptive skills. SkillForge makes the agent **interview, spec, generate, and audit** the skill before writing a single file — turning a fuzzy request into a reviewed, read-only skill you can trust.
 
-Users ask for agent skills in vague terms: *"Make a skill that reviews my code"* or *"I need something to check my PRs."* A naive agent generates a skill immediately — filling in missing details with assumptions, skipping safety checks, and producing something fragile.
+---
 
-SkillForge enforces a structured workflow: analyze intent, check what already exists, ask only blocking questions, write a spec, generate files, audit the result, and explain how to use it. It treats skill creation as engineering, not prompting.
+## Before vs After
+
+| Before (simple prompt) | After (SkillForge) |
+|---|---|
+| "Make a skill that reviews my frontend code." | Same prompt — but the agent first analyzes intent, checks existing skills, asks clarifying questions, writes a spec for approval, generates files, then audits the result. |
+| AI immediately writes a vague `SKILL.md` with assumptions about your framework, tools, and workflow. | The agent waits for your spec approval before touching any file. |
+| No spec. No audit. No safety boundaries. | 9-criterion quality audit. Explicit safety boundaries. Read-only by default. |
 
 ---
 
 ## How It Works
 
-SkillForge is an OpenCode skill that activates when you ask to create, adapt, or audit a skill. It follows 7 steps in sequence:
+```text
+Vague request
+  ↓
+Intent analysis
+  ↓
+Existing-skill check
+  ↓
+Questions / defaults
+  ↓
+Skill spec
+  ↓
+Generated file plan
+  ↓
+Quality audit
+  ↓
+User approval
+  ↓
+Generate skill files
+```
 
-1. **Skill Intent Analysis** — restates the request and extracts purpose, trigger pattern, and frequency
-2. **Existing Skill Check** — looks for local skills that could be adapted instead of created
-3. **Blocking Questions** — asks only what would block progress (max 3)
-4. **Skill Spec** — writes a spec contract for user approval before any file is touched
-5. **Generate Skill Files** — produces SKILL.md, README.md, and templates from the approved spec
-6. **Skill Quality Audit** — scores the generated skill against 9 criteria; fails until all pass
-7. **Install / Usage Instructions** — tells the user how to install and verify
+SkillForge is an OpenCode skill. Install it, ask for a skill, and the agent walks through all 7 steps before writing anything.
+
+---
+
+## Quick Install
+
+```bash
+# macOS / Linux
+curl -sSL https://raw.githubusercontent.com/schizo16/skillforge/main/install.sh | bash
+```
+
+```powershell
+# Windows PowerShell
+iex (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/schizo16/skillforge/main/install.ps1')
+```
+
+[Manual install instructions →](INSTALL.md)
+
+---
+
+## Quick Verification
+
+Run this in OpenCode:
+
+> *"Use the SkillForge skill. Make a skill that reviews frontend code. Do not create files yet."*
+
+Expected: Skill Intent Analysis, Existing Skill Check, and Configuration Questions — **not** a generated file.
+
+[Full verification guide →](INSTALL.md#verify)
 
 ---
 
@@ -31,6 +77,11 @@ SkillForge is an OpenCode skill that activates when you ask to create, adapt, or
 ```
 skillforge/
 ├── README.md                         # This file
+├── INSTALL.md                        # Install and verification guide
+├── demo.md                           # Browse generated skill examples
+├── install.sh                        # macOS/Linux install script
+├── install.ps1                       # Windows install script
+├── LICENSE
 └── .opencode/
     └── skills/
         └── skillforge/
@@ -41,51 +92,16 @@ skillforge/
             │   ├── skill-audit.md    # Audit scoring template
             │   └── skill-readme.md   # README template for new skills
             └── examples/
-                ├── create-frontend-review-skill.input.md              # Vague request example
-                ├── create-frontend-review-skill.expected.md           # Expected workflow output
-                ├── create-responsive-a11y-review-skill.expected.md    # Expected workflow output
-                ├── create-ai-claim-audit-skill.input.md               # Vague request example
-                └── create-ai-claim-audit-skill.expected.md            # Expected workflow output
+                ├── create-frontend-review-skill.input.md
+                ├── create-frontend-review-skill.expected.md
+                ├── create-responsive-a11y-review-skill.expected.md
+                ├── create-ai-claim-audit-skill.input.md
+                └── create-ai-claim-audit-skill.expected.md
 ```
 
 ---
 
-## Installation
-
-1. Make sure you have OpenCode installed.
-2. Clone or copy the `skillforge` folder into your project:
-
-```bash
-# From your project root
-cp -r path/to/skillforge/.opencode .
-```
-
-3. Verify the skill is available:
-
-```
-.opencode/skills/skillforge/SKILL.md
-```
-
-4. Activate by asking your agent to create a skill:
-
-> *"I need a skill that reviews my frontend code before PRs."*
-
----
-
-## Usage Example
-
-**User:** *"Make a skill that reviews my frontend code."*
-
-SkillForge will:
-1. Restate the intent and identify key signals (trigger, inputs, frequency)
-2. Check for existing local skills that might already cover this
-3. Ask 2–3 blocking questions (e.g. *"Which framework?"*, *"Do you have a lint config?"*)
-4. Present a Skill Spec for your approval
-5. Generate the skill files under `.opencode/skills/frontend-review/`
-6. Audit the generated skill and report pass/fail per criterion
-7. Tell you how to test it
-
-See `examples/create-frontend-review-skill.expected.md` for a complete walkthrough.
+See [`demo.md`](demo.md) and [`.opencode/skills/skillforge/examples/`](.opencode/skills/skillforge/examples/) for complete workflow walkthroughs.
 
 ---
 
@@ -108,8 +124,8 @@ No-code manual checks for v0.1.1:
 
 1. **Skill file exists** — confirm `.opencode/skills/skillforge/SKILL.md` is present in your project.
 2. **Agent does not jump to generation** — ask: *"Make a skill that reviews frontend code."* The first output should be Skill Intent Analysis, Existing Skill Check, and Blocking/Configuration Questions — not a generated SKILL.md file.
-3. **Browse examples** — see `.opencode/skills/skillforge/examples/` for complete workflow walkthroughs.
-4. **Browse generated skills** — see `.opencode/skills/responsive-a11y-review/` and `.opencode/skills/ai-claim-audit/` for skills produced by SkillForge.
+3. **[Browse examples →](.opencode/skills/skillforge/examples/)** — complete workflow walkthroughs.
+4. **[Browse generated skills →](demo.md)** — skills produced by SkillForge: `responsive-a11y-review`, `ai-claim-audit`.
 
 ---
 
