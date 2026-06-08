@@ -102,6 +102,17 @@ See `examples/create-frontend-review-skill.expected.md` for a complete walkthrou
 
 ---
 
+## Verification
+
+No-code manual checks for v0.1.1:
+
+1. **Skill file exists** — confirm `.opencode/skills/skillforge/SKILL.md` is present in your project.
+2. **Agent does not jump to generation** — ask: *"Make a skill that reviews frontend code."* The first output should be Skill Intent Analysis, Existing Skill Check, and Blocking/Configuration Questions — not a generated SKILL.md file.
+3. **Browse examples** — see `.opencode/skills/skillforge/examples/` for complete workflow walkthroughs.
+4. **Browse generated skills** — see `.opencode/skills/responsive-a11y-review/` and `.opencode/skills/ai-claim-audit/` for skills produced by SkillForge.
+
+---
+
 ## Roadmap
 
 1. **OpenCode skill** — SkillForge as a self-contained skill (current)

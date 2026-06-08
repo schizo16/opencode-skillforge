@@ -15,8 +15,13 @@
 ## Installation
 
 ```bash
-# Copy the skill folder into your project
+# POSIX (macOS/Linux)
 cp -r .opencode/skills/<skill-name> <your-project>/.opencode/skills/
+```
+
+```powershell
+# Windows PowerShell
+Copy-Item -Recurse -Path .opencode/skills/<skill-name> -Destination <your-project>/.opencode/skills/
 ```
 
 Or place it manually under `.opencode/skills/<skill-name>/`.
