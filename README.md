@@ -72,6 +72,20 @@ Expected: Skill Intent Analysis, Existing Skill Check, and Configuration Questio
 
 ---
 
+## Compatibility
+
+| Agent | How to use SkillForge |
+|-------|----------------------|
+| **OpenCode** | Primary target. Place `.opencode/skills/skillforge/` in your project. The skill activates automatically via `SKILL.md`. |
+| **Claude Code** | The workflow can be adapted as a Claude Agent Skill using the same `SKILL.md` format. Follow Claude Code's skill installation process. |
+| **Codex** | The workflow can be ported into `AGENTS.md` or `CODEX.md` as structured project instructions. |
+| **Cursor** | The workflow can be adapted into Cursor Rules or `AGENTS.md`. |
+| **Other agents** | The 7-step workflow can be used as reusable project instructions for any coding agent that supports custom rules or instructions. |
+
+SkillForge is **OpenCode-first**. Support for other agents requires adaptation and has not been fully tested. See [`docs/compatibility.md`](docs/compatibility.md) for detailed porting guidance.
+
+---
+
 ## File Structure
 
 ```
