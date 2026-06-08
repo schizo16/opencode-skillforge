@@ -220,7 +220,120 @@ If there is a clear safe recommendation, say which option is recommended.
 
 ---
 
-### 3. Questions
+### 3. Project Context Discovery
+
+Use this section when the user asks for skill suggestions for "this project" without specifying the exact skill. Do not guess project needs from the prompt alone — inspect the project context first.
+
+---
+
+#### Files to Inspect
+
+Look for evidence in:
+
+- `README.md` — project purpose, stack, setup
+- `package.json` / `pnpm-lock.yaml` / `yarn.lock` / `package-lock.json` — dependencies, framework, scripts
+- Framework config files — `next.config.js`, `vite.config.ts`, `tsconfig.json`, `.eslintrc`, `tailwind.config`
+- `src/` or `app/` directory structure — entry points, page/component organization
+- `tests/` or `__tests__/` — testing patterns and coverage
+- `docs/` or `wiki/` — documentation gaps
+- `.opencode/skills/` — existing skills
+- `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` / `CODEX.md` — existing agent instructions
+- `.github/workflows/` — CI pipelines
+- Existing generated examples or templates
+
+---
+
+#### Output Format
+
+```
+## Project Context Discovery
+
+### Files inspected
+- <path>
+- <path>
+
+### Project signals found
+- stack/framework: <detected>
+- app type: <web app / library / CLI / API / monorepo / other>
+- existing workflows: <test, lint, build, deploy, review, docs>
+- pain points suggested by repo: <based on config gaps, missing tooling, TODO comments, sparse docs>
+- existing skills: <list or none>
+- missing skill opportunities: <detected from project gaps>
+
+### Unknowns
+- <unclear aspects that need user input>
+```
+
+---
+
+#### Skill Opportunity Ranking
+
+Rank possible skills from S to F based on evidence found.
+
+```
+## Skill Opportunity Ranking
+
+| Tier | Skill idea | Why it fits this project | Evidence from repo | Skill vs MCP | Risk |
+|------|-----------|--------------------------|-------------------|-------------|------|
+| S | <name> | <strong repo evidence> | <specific files/configs> | skill / MCP / skill + MCP | low / medium / high |
+| A | <name> | <good repo evidence> | <specific files/configs> | skill / MCP / skill + MCP | low / medium / high |
+| B | <name> | <some evidence> | <specific files/configs> | skill / MCP / skill + MCP | low / medium / high |
+| C | <name> | <weak evidence> | <specific files/configs> | skill / MCP / skill + MCP | low / medium / high |
+| F | <name> | <speculative> | <labeled as inference> | skill / MCP / skill + MCP | high / unknown |
+```
+
+---
+
+#### Skill vs MCP Decision
+
+For each recommendation, classify as:
+
+- **skill** — project-specific workflow, review rules, output format, agent discipline
+- **MCP** — live data, external APIs, browser automation, database access, command execution, package lookup, repo-wide indexing, web/doc verification
+- **skill + MCP** — needs both reasoning workflow and external tool access
+
+Do not recommend MCP just because it sounds more powerful.
+
+---
+
+#### Community Discovery After Project Discovery
+
+If web/search tools are available, search public skills and MCP servers related to the top skill ideas and include candidates in the table.
+
+If web/search tools are not available, state:
+
+> *"Public community search was not performed because no web/search tool is available."*
+
+---
+
+#### Evidence Requirement
+
+Do not recommend a specific skill idea unless there is evidence from at least one of:
+
+- Repository files
+- User prompt
+- Local skills
+- Public / community search results
+- Clearly labeled inference
+
+Label all inferred items as such.
+
+---
+
+#### Approval Before Generation
+
+After ranking, do not create files. Ask:
+
+> *"Choose one:*
+> *1. Generate the S-tier skill*
+> *2. Explore community candidates first*
+> *3. Pick another ranked skill*
+> *4. Provide more project context*
+> *5. Stop"*
+
+---
+
+### 4. Questions
 
 Determine whether there are true blockers — details without which the skill cannot be correctly built. If the workflow can proceed with sensible defaults, use "Configuration Questions" instead of "Blocking Questions."
 
