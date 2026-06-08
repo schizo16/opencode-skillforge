@@ -1,6 +1,6 @@
 param(
   [string]$TargetDir = ".opencode\skills",
-  [string]$RepoUrl = "https://github.com/schizo16/skillforge.git"
+  [string]$RepoUrl = "https://github.com/schizo16/opencode-skillforge.git"
 )
 
 $ErrorActionPreference = "Stop"

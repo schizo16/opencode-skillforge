@@ -65,7 +65,76 @@ Analyze the user's request to extract the concrete skill purpose.
 
 ---
 
-### 2. Community Discovery
+### 2. Composition Analysis
+
+After Intent Analysis, determine whether the user's request requires a single skill or a composition of multiple skills working together.
+
+**Signals that indicate multi-skill composition:**
+
+- The request spans multiple domains (e.g., "review frontend, check backend security, and run database migration")
+- The request implies a pipeline (e.g., "lint first, then review, then generate changelog")
+- The request mentions distinct workflows that existing skills already cover partially
+- The user says "combine", "chain", "pipeline", "sequence", "automate", "orchestrate", "workflow"
+- The request has multiple output contracts (report, notification, file change, deploy gate)
+
+**If single skill is sufficient →** proceed to Community Discovery (step 3).
+
+**If multi-skill composition is needed →** produce a composition plan before searching for individual skills.
+
+#### Composition Plan Output
+
+```
+## Composition Plan
+
+**Primary workflow:**
+<what the user ultimately wants to accomplish>
+
+**Sub-workflows identified:**
+1. <sub-workflow> → expected output → candidate skill or MCP
+2. <sub-workflow> → expected output → candidate skill or MCP
+
+**Data flow between sub-workflows:**
+- <sub-workflow 1 output> → <sub-workflow 2 input>
+- <sub-workflow 2 output> → <sub-workflow 3 input>
+
+**Orchestration pattern:** sequential / parallel / fan-out / conditional / pipeline
+```
+
+#### Orchestration Patterns
+
+| Pattern | When to use | Example |
+|---------|------------|---------|
+| **Sequential** | Each step depends on the previous output | Lint → Review → Report |
+| **Parallel** | Steps are independent, results combined | Responsive scan + A11y scan + Perf scan → Combined report |
+| **Fan-out** | One input triggers multiple independent checks | Same code reviewed by frontend, backend, security skills in parallel |
+| **Conditional** | Next step depends on previous step result | If lint fails → stop; if lint passes → review |
+| **Pipeline** | Ordered chain where each step transforms data | Fetch spec → Lint → Test → Build → Deploy gate |
+
+#### Composition Skill Types
+
+When generating a multi-skill solution, classify each piece:
+
+- **Worker skill** — performs a single focused task (e.g., `frontend-review`, `ai-claim-audit`)
+- **Orchestrator skill** — coordinates worker skills, defines the pipeline, passes data between steps
+- **Gate skill** — evaluates output of previous step and decides whether to continue
+- **Aggregator skill** — combines outputs from multiple workers into a single report or decision
+
+Recommend creating an **orchestrator skill** when the composition has 3+ steps or conditional logic. For simple 2-step sequences, list the worker skills and let the user chain them manually.
+
+#### Composition Rules
+
+- Do not create orchestrator skills unless the pipeline has 3+ steps or conditional branching
+- Do not generate all worker skills in a single session without user approval
+- Label each sub-workflow with its expected output contract
+- Ensure data flow between steps is compatible (output of step N must satisfy input of step N+1)
+- If a sub-workflow matches an existing local or public skill, prioritize reuse over creating a new worker skill
+- If a sub-workflow needs live data or external tooling, recommend MCP for that step specifically
+
+After completing the Composition Plan, proceed to Community Discovery for each sub-workflow individually.
+
+---
+
+### 3. Community Discovery
 
 Check whether the user's need is already solved by a local skill, a public/community skill, or a public MCP server. Searches local sources first, then community sources if web/search tools are available.
 
@@ -220,7 +289,7 @@ If there is a clear safe recommendation, say which option is recommended.
 
 ---
 
-### 3. Project Context Discovery
+### 4. Project Context Discovery
 
 Use this section when the user asks for skill suggestions for "this project" without specifying the exact skill. Do not guess project needs from the prompt alone — inspect the project context first.
 
@@ -333,7 +402,7 @@ After ranking, do not create files. Ask:
 
 ---
 
-### 4. Questions
+### 5. Questions
 
 Determine whether there are true blockers — details without which the skill cannot be correctly built. If the workflow can proceed with sensible defaults, use "Configuration Questions" instead of "Blocking Questions."
 
@@ -368,7 +437,7 @@ Limit to 3 questions maximum. If no questions remain, state: *"No blocking quest
 
 ---
 
-### 4. Skill Spec
+### 6. Skill Spec
 
 Produce a detailed specification of the skill before writing any skill files. The spec is the contract between the user and the implementation.
 
@@ -425,7 +494,7 @@ The user must approve the Skill Spec before proceeding to generation.
 
 ---
 
-### 5. Generate Skill Files
+### 7. Generate Skill Files
 
 Generate the skill's files based on the approved Skill Spec.
 
@@ -453,7 +522,7 @@ Announce each file as it is written.
 
 ---
 
-### 6. Skill Quality Audit
+### 8. Skill Quality Audit
 
 Audit every generated file against the Quality Audit Rubric (see below). Report pass/fail per criterion. Any failure must be fixed before proceeding.
 
@@ -482,7 +551,7 @@ Audit every generated file against the Quality Audit Rubric (see below). Report 
 
 ---
 
-### 7. Install / Usage Instructions
+### 9. Install / Usage Instructions
 
 Tell the user how to install and verify the skill.
 

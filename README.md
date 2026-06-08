@@ -2,6 +2,8 @@
 
 **Create better OpenCode skills from vague user requests.**
 
+**opencode-skillforge** is an OpenCode skill that creates, adapts, and audits agent skills (`.opencode/skills/SKILL.md`). It turns vague prompts into structured specs, generates audited skill files, and supports community discovery of existing skills and MCP servers.
+
 ---
 
 Most *"write me a skill"* prompts produce vague, assumptive skills. SkillForge makes the agent **interview, spec, generate, and audit** the skill before writing a single file — turning a fuzzy request into a reviewed, read-only skill you can trust.
@@ -25,13 +27,13 @@ Vague request
   ↓
 Intent analysis
   ↓
-Existing-skill check
+Composition analysis
+  ↓
+Community discovery
   ↓
 Questions / defaults
   ↓
 Skill spec
-  ↓
-Generated file plan
   ↓
 Quality audit
   ↓
@@ -40,7 +42,7 @@ User approval
 Generate skill files
 ```
 
-SkillForge is an OpenCode skill. Install it, ask for a skill, and the agent walks through all 7 steps before writing anything.
+SkillForge is an OpenCode skill. Install it, ask for a skill, and the agent walks through all 9 steps before writing anything.
 
 ---
 
@@ -48,12 +50,12 @@ SkillForge is an OpenCode skill. Install it, ask for a skill, and the agent walk
 
 ```bash
 # macOS / Linux
-curl -sSL https://raw.githubusercontent.com/schizo16/skillforge/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/schizo16/opencode-skillforge/main/install.sh | bash
 ```
 
 ```powershell
 # Windows PowerShell
-iex (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/schizo16/skillforge/main/install.ps1')
+iex (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/schizo16/opencode-skillforge/main/install.ps1')
 ```
 
 [Manual install instructions →](INSTALL.md)

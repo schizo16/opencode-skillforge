@@ -21,7 +21,7 @@
 
 The following aspects of SkillForge are agent-agnostic:
 
-- The 7-step workflow (Intent Analysis → Community Discovery → Project Context → Questions → Skill Spec → Quality Audit → Instructions)
+- The workflow (Intent Analysis → Composition Analysis → Community Discovery → Project Context → Questions → Skill Spec → Quality Audit → Instructions)
 - The `templates/` (skill-spec.md, skill-audit.md, skill-readme.md)
 - The `examples/` (expected workflow outputs)
 - The quality audit rubric

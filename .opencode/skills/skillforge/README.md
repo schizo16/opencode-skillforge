@@ -30,7 +30,7 @@ Ask your agent to create, adapt, or audit a skill:
 > "Update this skill to also check accessibility."
 > "Audit the skill in .opencode/skills/deploy-check/."
 
-SkillForge runs through 7 steps: Intent Analysis → Existing Check → Blocking Questions → Skill Spec → Generate Files → Quality Audit → Usage Instructions.
+SkillForge runs through 9 steps: Intent Analysis → Composition Analysis → Community Discovery → Questions → Skill Spec → Generate Files → Quality Audit → Usage Instructions.
 
 ---
 

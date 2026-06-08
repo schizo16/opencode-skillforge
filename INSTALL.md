@@ -11,13 +11,13 @@ Install the SkillForge OpenCode skill into your project.
 ### macOS / Linux
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/schizo16/skillforge/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/schizo16/opencode-skillforge/main/install.sh | bash
 ```
 
 ### Windows PowerShell
 
 ```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force; iex (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/schizo16/skillforge/main/install.ps1')
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force; iex (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/schizo16/opencode-skillforge/main/install.ps1')
 ```
 
 > **Note:** This installs the SkillForge skill only. Generated example skills such as responsive-a11y-review and ai-claim-audit are not installed; they are examples created by SkillForge.
@@ -29,7 +29,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force; iex (Invoke-R
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/schizo16/skillforge.git /tmp/skillforge
+git clone https://github.com/schizo16/opencode-skillforge.git /tmp/skillforge
 ```
 
 2. Copy the skill folder into your project:

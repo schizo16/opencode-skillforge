@@ -45,7 +45,7 @@ SkillForge fixes this.
 7-step workflow. User-approved spec. Quality audit. Read-only by default.
 
 Open-source, OpenCode-first:
-github.com/schizo16/skillforge
+github.com/schizo16/opencode-skillforge
 ```
 
 ---
@@ -69,7 +69,7 @@ Most "write me a skill" prompts produce vague, assumptive skills. SkillForge mak
 No CLI, no MCP, no plugin — just an OpenCode skill you drop into your project.
 Read-only. No assumptions. Audited output.
 
-https://github.com/schizo16/skillforge
+https://github.com/schizo16/opencode-skillforge
 
 Would love feedback from anyone building agent workflows.
 ```
@@ -78,7 +78,7 @@ Would love feedback from anyone building agent workflows.
 
 ## GitHub Awesome-List Entry
 
-- [SkillForge](https://github.com/schizo16/skillforge) — OpenCode skill that creates, adapts, and audits other skills from vague user requests using a 7-step structured workflow.
+- [SkillForge](https://github.com/schizo16/opencode-skillforge) — OpenCode skill that creates, adapts, and audits other skills from vague user requests using a 7-step structured workflow.
 
 ---
 

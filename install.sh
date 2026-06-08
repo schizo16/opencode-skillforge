@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SKILLFORGE_URL="${SKILLFORGE_URL:-https://github.com/schizo16/skillforge.git}"
+SKILLFORGE_URL="${SKILLFORGE_URL:-https://github.com/schizo16/opencode-skillforge.git}"
 TARGET_DIR="${1:-.opencode/skills}"
 TEMP_DIR=$(mktemp -d)
 
