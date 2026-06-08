@@ -171,9 +171,18 @@ Produce a detailed specification of the skill before writing any skill files. Th
 **Do-not behaviors:**
 - <prohibited behavior 1>
 - <prohibited behavior 2>
+
+**Command execution:**
+- <allowed commands, if any — default: none>
 ```
 
 The user must approve the Skill Spec before proceeding to generation.
+
+**Guidance for generated read-only review skills:**
+
+- **Color contrast** — Do not claim exact contrast validation unless the skill is allowed to use browser or tool output. Prefer: *"Flag obvious contrast risks when visible and recommend tool-based validation for final confirmation."*
+- **Lint / style tools** — Do not say "run lint checks" unless command execution is explicitly allowed. Prefer: *"Inspect available lint and style configs and reference them in the review; do not run commands unless explicitly asked."*
+- **Command execution** — Include a "Command execution" boundary in every generated spec. Default: *"Do not run install, build, lint, test, or deploy commands unless the user explicitly allows it."*
 
 ---
 
