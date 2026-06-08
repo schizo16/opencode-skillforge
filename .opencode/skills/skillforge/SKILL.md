@@ -83,31 +83,55 @@ Check whether an existing skill already covers the request. Consult available sk
 **Potential matches for this request:**
 - <skill name> — <why it might fit, or "none found">
 
-**Verdict:**
-- [ ] An existing skill covers this request → recommend adaptation
-- [ ] No existing skill matches → recommend creation
-```
+**Fit-level rubric:**
+- **Exact match** — an existing skill fully covers the request → reuse existing
+- **Strong overlap** — minor gaps exist, workflow and output contract are similar → adapt/fork existing
+- **Partial overlap** — distinct output contract or workflow required → create new with existing skill as reference
+- **No relevant match** — no existing skill addresses the request → create new
+- **Insufficient information** — cannot determine fit without more details → need more info
 
-**Decision rule:**
-- Prefer **adapting** an existing skill when the request is generic or when a similar skill exists with minor differences.
-- Prefer **creating** a new skill when the workflow is specific, repeated, high-value, or needs a custom output contract.
+Use the rubric above to determine a single verdict. Do not output multiple or contradictory verdicts.
+
+**Verdict:**
+<one of: Reuse existing / Adapt/Fork existing / Create new with existing skill as reference / Create new / Need more info>
+
+**Reasoning:**
+<one sentence explaining which rubric tier was chosen and why>
 
 ---
 
-### 3. Blocking Questions
+### 3. Questions
 
-Ask only questions that would block progress — clarifications without which the skill cannot be correctly built. Do not ask nice-to-have questions.
+Determine whether there are true blockers — details without which the skill cannot be correctly built. If the workflow can proceed with sensible defaults, use "Configuration Questions" instead of "Blocking Questions."
 
-**Output format:**
+**Default behavior:** When optional details are missing, proceed with safe defaults and label them clearly. Examples:
+- Frontend framework unknown → default: framework-agnostic
+- Style guide unknown → default: detect from repo if available
+- File types unknown → default: common frontend files such as .tsx, .jsx, .css, .scss
+- Domain unknown → default: general
+- Evidence threshold unknown → default: moderate
+
+Do not block skill creation for optional project preferences when safe defaults exist.
+
+**Output format when blockers exist:**
 
 ```
 ## Blocking Questions
 
-1. <question>
-2. <question>
+1. <question> — <why this blocks progress>
+2. <question> — <why this blocks progress>
 ```
 
-Limit to 3 questions maximum. If no blocking questions remain, state: *"No blocking questions. Proceeding to Skill Spec."*
+**Output format when defaults suffice:**
+
+```
+## Configuration Questions
+
+1. <question> (optional — default: <default>)
+2. <question> (optional — default: <default>)
+```
+
+Limit to 3 questions maximum. If no questions remain, state: *"No blocking questions. Proceeding to Skill Spec."*
 
 ---
 
