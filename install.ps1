@@ -25,10 +25,9 @@ try {
 
   # Clone to temp directory
   Write-Host "Cloning SkillForge from $RepoUrl ..."
-  git clone --depth 1 $RepoUrl $TempDir 2>&1
+  & git clone --depth 1 $RepoUrl $TempDir
   if ($LASTEXITCODE -ne 0) {
-    Write-Error "Failed to clone repository. Check the URL and your network connection."
-    exit 1
+    throw "Failed to clone repository: $RepoUrl"
   }
 
   # Verify source path exists
