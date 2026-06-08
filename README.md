@@ -41,8 +41,11 @@ skillforge/
             │   ├── skill-audit.md    # Audit scoring template
             │   └── skill-readme.md   # README template for new skills
             └── examples/
-                ├── create-frontend-review-skill.input.md     # Vague request example
-                └── create-frontend-review-skill.expected.md  # Expected workflow output
+                ├── create-frontend-review-skill.input.md              # Vague request example
+                ├── create-frontend-review-skill.expected.md           # Expected workflow output
+                ├── create-responsive-a11y-review-skill.expected.md    # Expected workflow output
+                ├── create-ai-claim-audit-skill.input.md               # Vague request example
+                └── create-ai-claim-audit-skill.expected.md            # Expected workflow output
 ```
 
 ---
