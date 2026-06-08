@@ -1,9 +1,9 @@
 param(
-  [string]$TargetDir = ".opencode\skills"
+  [string]$TargetDir = ".opencode\skills",
+  [string]$RepoUrl = "https://github.com/schizo16/skillforge.git"
 )
 
 $ErrorActionPreference = "Stop"
-$RepoUrl = "https://github.com/schizo16/skillforge.git"
 $TempDir = Join-Path $env:TEMP "skillforge-install-$(Get-Random)"
 $SkillPath = Join-Path $TargetDir "skillforge"
 
@@ -25,7 +25,11 @@ try {
 
   # Clone to temp directory
   Write-Host "Cloning SkillForge from $RepoUrl ..."
-  git clone --depth 1 $RepoUrl $TempDir 2>&1 | Out-Null
+  git clone --depth 1 $RepoUrl $TempDir 2>&1
+  if ($LASTEXITCODE -ne 0) {
+    Write-Error "Failed to clone repository. Check the URL and your network connection."
+    exit 1
+  }
 
   # Verify source path exists
   $SourcePath = Join-Path $TempDir ".opencode\skills\skillforge"
