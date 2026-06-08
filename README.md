@@ -74,15 +74,51 @@ Expected: Skill Intent Analysis, Existing Skill Check, and Configuration Questio
 
 ## Compatibility
 
-| Agent | How to use SkillForge |
-|-------|----------------------|
-| **OpenCode** | Primary target. Place `.opencode/skills/skillforge/` in your project. The skill activates automatically via `SKILL.md`. |
-| **Claude Code** | The workflow can be adapted as a Claude Agent Skill using the same `SKILL.md` format. Follow Claude Code's skill installation process. |
-| **Codex** | The workflow can be ported into `AGENTS.md` or `CODEX.md` as structured project instructions. |
-| **Cursor** | The workflow can be adapted into Cursor Rules or `AGENTS.md`. |
-| **Other agents** | The 7-step workflow can be used as reusable project instructions for any coding agent that supports custom rules or instructions. |
+### OpenCode (primary target)
 
-SkillForge is **OpenCode-first**. Support for other agents requires adaptation and has not been fully tested. See [`docs/compatibility.md`](docs/compatibility.md) for detailed porting guidance.
+Copy the skill folder into your project:
+
+```bash
+cp -r .opencode/skills/skillforge <your-project>/.opencode/skills/skillforge
+```
+
+```powershell
+Copy-Item -Recurse -Path .opencode/skills/skillforge -Destination <your-project>/.opencode/skills/skillforge
+```
+
+The skill activates automatically when OpenCode detects `SKILL.md` under `.opencode/skills/`.
+
+### Claude Code
+
+Claude Code supports Agent Skills using the same `SKILL.md` format. Copy the skill folder into your project's skill directory (typically `.claude/skills/` or project root depending on your setup):
+
+```bash
+cp -r .opencode/skills/skillforge .claude/skills/skillforge
+```
+
+Then activate by asking: *"Use the SkillForge skill. Make a skill that reviews frontend code."*
+
+### Codex
+
+Codex uses `AGENTS.md` or `CODEX.md` for project instructions. Port the workflow manually:
+
+1. Create or edit `AGENTS.md` in your project root.
+2. Copy the **Core Rule**, **Workflow** steps, **Do-Not Rules**, and **Safety / Boundaries** sections from `SKILL.md` into `AGENTS.md`.
+3. Save and trigger with: *"Suggest a skill for this project."*
+
+### Cursor
+
+Cursor supports Cursor Rules (`.cursor/rules/`) and `AGENTS.md`. To adapt:
+
+1. Create `.cursor/rules/skillforge.mdc` or add to `AGENTS.md`.
+2. Include the workflow steps, do-not rules, and decision rubrics from `SKILL.md`.
+3. Trigger with: *"Create a skill for reviewing my frontend code."*
+
+### Other agents
+
+The 7-step workflow can be used as reusable project instructions for any coding agent that supports custom rules or instructions. See [`docs/compatibility.md`](docs/compatibility.md) for detailed porting guidance.
+
+> **Note:** SkillForge is **OpenCode-first**. Support for other agents has not been fully tested. Installation steps above are based on each tool's documented conventions.
 
 ---
 
